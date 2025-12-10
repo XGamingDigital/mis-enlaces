@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eligiendo destino...</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .loader {
+            border: 5px solid #333;
+            border-top: 5px solid #3b82f6;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div>
+        <div class="loader"></div>
+        <h2>🎲 Tirando los dados...</h2>
+        <p>Te estamos redirigiendo a una entrada aleatoria.</p>
+    </div>
+
+    <script>
+        /* --- LISTA DE TUS ENLACES --- */
+        /* Pon aquí todos los links que quieras que salgan al azar */
+        const destinos = [
+            "https://www.xgamingdigital.com/2025/12/mejor-sensibilidad-free-fire-todo-rojo-2026.html", // Ejemplo 1
+            "https://www.xgamingdigital.com/2025/12/roblox-lento-aumentar-fps-gama-baja.html",                  // Ejemplo 2 (Archivo local)
+            "https://www.xgamingdigital.com/2025/12/como-bajar-ping-juegos-moviles-sin-apps.html",                           // Ejemplo 
+            "https://www.xgamingdigital.com/2025/12/mejores-emuladores-ligeros-free-fire-bajos-recursos.html",
+            "https://www.xgamingdigital.com/2025/12/recuperar-cuenta-invitado-free-fire-cod-mobile.html",
+            // Copia y pega líneas para añadir más...
+        ];
+
+        /* --- LÓGICA ALEATORIA --- */
+        function irAlAzar() {
+            // Elige un número al azar entre 0 y el total de links
+            const indice = Math.floor(Math.random() * destinos.length);
+            
+            // Redirige al navegador a ese link
+            window.location.href = destinos[indice];
+        }
+
+        // Ejecutar inmediatamente (con un pequeño retraso para que se vea el efecto)
+        setTimeout(irAlAzar, 1000); 
+    </script>
+
+</body>
+</html>
