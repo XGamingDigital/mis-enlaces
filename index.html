@@ -3,288 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descarga Premium Segura</title>
+    <title>Acceso Seguro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --step-bg: rgba(255, 255, 255, 0.7);
-            --text-main: #2d3748;
-            --text-sec: #718096;
-        }
-
+        /* --- CONFIGURACIÓN GLOBAL --- */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--primary-gradient);
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #000000; /* Fondo NEGRO puro */
             min-height: 100vh;
             margin: 0;
-            display: flex;
+            display: flex; /* Centra el contenedor principal */
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: var(--text-main);
+            color: #e2e8f0;
+            overflow: hidden; /* Importante para el fondo SVG grande */
+            position: relative;
         }
 
+        /* --- FONDO DE PLACA MADRE ANIMADO --- */
+        .circuit-bg-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            /* Un ligero zoom out para que se vea más densidad */
+            transform: scale(1.1);
+        }
+
+        /* Estilo de las líneas (Trazas) */
+        .c-trace {
+            fill: none;
+            /* COLOR CLAVE: Blanco/Gris con muy baja opacidad (transparente) */
+            stroke: rgba(255, 255, 255, 0.12); 
+            stroke-width: 1; /* Líneas finas */
+            stroke-linecap: round; stroke-linejoin: round;
+            
+            /* Configuración de la animación de dibujado */
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawMotherboard 15s ease-in-out infinite alternate;
+        }
+
+        /* Estilo de los puntos (Pads/Vias) */
+        .c-pad {
+            fill: rgba(255, 255, 255, 0.12); stroke: none;
+            animation: fadePads 15s ease-in-out infinite alternate;
+        }
+
+        /* Retrasos aleatorios para que no se dibuje todo a la vez */
+        .d1 { animation-delay: 0s; } .d2 { animation-delay: 2s; }
+        .d3 { animation-delay: 4s; } .d4 { animation-delay: 6s; }
+        .d5 { animation-delay: 8s; }
+
+        /* Animación de las líneas (aparecen y desaparecen dibujándose) */
+        @keyframes drawMotherboard {
+            0% { stroke-dashoffset: 1000; opacity: 0.5; }
+            50% { stroke-dashoffset: 0; opacity: 1; }
+            100% { stroke-dashoffset: 1000; opacity: 0.5; }
+        }
+        /* Animación de los puntos (solo parpadean suavemente) */
+        @keyframes fadePads {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* --- CONTENEDOR PRINCIPAL (Modificado para mayor contraste) --- */
         .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            text-align: center;
-            transition: transform 0.3s;
+            /* Fondo mucho más oscuro y opaco para que el texto sea legible sobre el circuito denso */
+            background: rgba(5, 5, 10, 0.85); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px; padding: 40px;
+            width: 100%; max-width: 500px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+            text-align: center; position: relative; z-index: 10;
         }
 
-        h2 { margin: 0 0 10px; font-weight: 700; color: #4a5568; }
-        p { margin-bottom: 30px; color: var(--text-sec); font-size: 0.95em; }
+        h2 { margin: 0 0 10px; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase;}
+        p { margin-bottom: 30px; color: #a0aec0; font-size: 1.1em; }
 
-        /* --- ESTILOS DE LOS PASOS --- */
+        /* --- ESTILOS DE PASOS --- */
         .step-card {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
+            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 15px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; transition: all 0.3s ease; user-select: none;
         }
-
-        .step-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-color: #667eea;
-        }
-
-        .step-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-            margin-right: 15px;
-        }
-
-        .youtube-icon { background: #fee2e2; color: #ef4444; }
-        .web-icon { background: #e0e7ff; color: #6366f1; }
+        .step-card:hover { background: rgba(255, 255, 255, 0.08); border-color: #6366f1; transform: translateX(5px); }
         
-        .step-info { flex-grow: 1; text-align: left; }
-        .step-title { font-weight: 600; font-size: 0.95em; display: block; }
-        .step-status { font-size: 0.8em; color: #a0aec0; }
-
-        /* Estados */
-        .waiting { border-color: #f59e0b; background: #fffbeb; pointer-events: none; }
-        .waiting .step-status { color: #d97706; font-weight: bold; }
+        .step-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; margin-right: 15px; background: rgba(255,255,255,0.05); color: #cbd5e0; }
         
-        .completed { border-color: #10b981; background: #ecfdf5; pointer-events: none; }
-        .completed .step-status { color: #10b981; font-weight: bold; }
+        .waiting { border-color: #d97706; background: rgba(217, 119, 6, 0.1); pointer-events: none; }
+        .waiting .step-status { color: #d97706; }
+        .completed { border-color: #10b981; background: rgba(5, 150, 105, 0.1); pointer-events: none; }
+        .completed .step-status { color: #10b981; }
         .completed .fa-check-circle { color: #10b981; display: block !important; }
         .completed .fa-chevron-right { display: none; }
 
-        /* Botón de descarga */
+        .step-info { flex-grow: 1; text-align: left; }
+        .step-title { font-weight: 700; font-size: 1.1em; display: block; letter-spacing: 1px;}
+        .step-status { font-size: 0.9em; color: #718096; margin-top: 4px; display: block;}
+
         .main-btn {
-            display: block;
-            width: 100%;
-            padding: 18px;
-            border-radius: 16px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            text-decoration: none;
-            margin-top: 25px;
-            transition: all 0.3s;
+            display: block; width: 100%; padding: 18px; border-radius: 16px; border: none;
+            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; text-decoration: none; margin-top: 25px; transition: all 0.3s; font-family: inherit;
         }
+        .btn-locked { background: #1a202c; color: #4a5568; border: 1px solid #2d3748; cursor: not-allowed; }
+        .btn-unlocked { background: #fff; color: #000; box-shadow: 0 0 25px rgba(255, 255, 255, 0.3); animation: pulseBtn 2s infinite; }
 
-        .btn-locked {
-            background: #cbd5e0;
-            color: #718096;
-            cursor: not-allowed;
-        }
-
-        .btn-unlocked {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        /* --- MODO GENERADOR (Admin) --- */
         #admin-panel { display: none; }
-        .admin-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        .copy-box {
-            background: #2d3748;
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8em;
-            word-break: break-all;
-            display: none;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        .admin-input { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid #4a5568; border-radius: 10px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; color: white; }
+        .copy-box { background: #000; border: 1px solid #333; color: #10b981; padding: 15px; border-radius: 8px; font-size: 0.9em; word-break: break-all; display: none; margin-top: 15px; cursor: pointer; font-family: monospace; }
+        @keyframes pulseBtn { 0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.2); } 50% { scale: 1.02; box-shadow: 0 0 30px rgba(255,255,255,0.5); } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <div id="visitor-view">
-            <h2>🚀 Desbloquear Enlace</h2>
-            <p>Completa los pasos para acceder a la descarga directa.</p>
+    <div class="circuit-bg-container">
+        <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            
+            <g class="d3">
+                <circle class="c-pad" cx="50" cy="50" r="4"/><circle class="c-pad" cx="50" cy="150" r="4"/>
+                <circle class="c-pad" cx="150" cy="50" r="4"/><circle class="c-pad" cx="150" cy="150" r="4"/>
+                <circle class="c-pad" cx="250" cy="250" r="4"/><circle class="c-pad" cx="350" cy="250" r="4"/>
+                <circle class="c-pad" cx="800" cy="800" r="4"/><circle class="c-pad" cx="800" cy="900" r="4"/>
+                <circle class="c-pad" cx="900" cy="800" r="4"/><circle class="c-pad" cx="900" cy="900" r="4"/>
+                <circle class="c-pad" cx="500" cy="500" r="6"/><circle class="c-pad" cx="450" cy="450" r="3"/>
+                <circle class="c-pad" cx="550" cy="550" r="3"/><circle class="c-pad" cx="450" cy="550" r="3"/>
+                <circle class="c-pad" cx="550" cy="450" r="3"/>
+            </g>
+             <g class="d5">
+                <circle class="c-pad" cx="10" cy="10" r="2"/><circle class="c-pad" cx="990" cy="10" r="2"/>
+                <circle class="c-pad" cx="10" cy="990" r="2"/><circle class="c-pad" cx="990" cy="990" r="2"/>
+                <circle class="c-pad" cx="300" cy="100" r="3"/><circle class="c-pad" cx="100" cy="300" r="3"/>
+                <circle class="c-pad" cx="700" cy="300" r="3"/><circle class="c-pad" cx="300" cy="700" r="3"/>
+            </g>
 
-            <div class="step-card" id="step1" onclick="startStep('step1', 'https://www.youtube.com/@XGamingDigital?sub_confirmation=1')">
-                <div class="step-icon youtube-icon"><i class="fab fa-youtube"></i></div>
+            <g class="d1">
+                <path class="c-trace" d="M50 50 H 950" /> <path class="c-trace" d="M50 950 H 950" /> <path class="c-trace" d="M50 50 V 950" /> <path class="c-trace" d="M950 50 V 950" /> <path class="c-trace" d="M150 50 V 250 H 50" />
+                <path class="c-trace" d="M850 950 V 750 H 950" />
+                <path class="c-trace" d="M200 0 V 1000" />
+                <path class="c-trace" d="M800 0 V 1000" />
+                <path class="c-trace" d="M0 200 H 1000" />
+                <path class="c-trace" d="M0 800 H 1000" />
+            </g>
+
+            <g class="d2">
+                <path class="c-trace" d="M450 450 H 550 V 550 H 450 V 450" />
+                <path class="c-trace" d="M400 400 H 600 V 600 H 400 V 400" />
+                <path class="c-trace" d="M500 400 V 200 L 600 100 H 800" />
+                <path class="c-trace" d="M500 600 V 800 L 400 900 H 200" />
+                <path class="c-trace" d="M400 500 H 200 L 100 400 V 200" />
+                <path class="c-trace" d="M600 500 H 800 L 900 600 V 800" />
+            </g>
+
+            <g class="d3">
+                <path class="c-trace" d="M20 120 H 120 V 20" />
+                <path class="c-trace" d="M30 130 H 130 V 30" />
+                <path class="c-trace" d="M40 140 H 140 V 40" />
+                <path class="c-trace" d="M980 880 H 880 V 980" />
+                <path class="c-trace" d="M970 870 H 870 V 970" />
+                <path class="c-trace" d="M960 860 H 860 V 960" />
+            </g>
+
+             <g class="d4">
+                <path class="c-trace" d="M250 250 L 300 300 L 350 250 L 400 300" />
+                <path class="c-trace" d="M750 750 L 700 800 L 650 750 L 600 800" />
+                <path class="c-trace" d="M100 700 H 300 L 400 800 H 600" />
+                <path class="c-trace" d="M900 300 H 700 L 600 200 H 400" />
+                <path class="c-trace" d="M320 100 V 900" /> <path class="c-trace" d="M340 100 V 900" />
+                <path class="c-trace" d="M660 100 V 900" /> <path class="c-trace" d="M680 100 V 900" />
+            </g>
+        </svg>
+    </div>
+
+    <div class="container">
+        <div id="visitor-view">
+            <h2><i class="fas fa-microchip"></i> BIOS Seguro v2.1</h2>
+            <p>Iniciando secuencia de verificación de hardware.</p>
+
+            <div class="step-card" id="step1" onclick="startStep('step1', 'https://www.youtube.com/@TuCanal?sub_confirmation=1')">
+                <div class="step-icon"><i class="fab fa-youtube"></i></div>
                 <div class="step-info">
-                    <span class="step-title">Suscribirse en YouTube</span>
-                    <span class="step-status">Toca para iniciar</span>
+                    <span class="step-title">Verificar Canal</span>
+                    <span class="step-status">Esperando señal...</span>
                 </div>
-                <i class="fas fa-chevron-right" style="color:#cbd5e0"></i>
+                <i class="fas fa-chevron-right" style="color:#4a5568"></i>
                 <i class="fas fa-check-circle" style="display:none"></i>
             </div>
 
-            <div class="step-card" id="step2" onclick="startStep('step2', 'https://www.xgamingdigital.com/')">
-                <div class="step-icon web-icon"><i class="fas fa-globe"></i></div>
+            <div class="step-card" id="step2" onclick="startStep('step2', 'https://google.com')">
+                <div class="step-icon"><i class="fas fa-globe"></i></div>
                 <div class="step-info">
-                    <span class="step-title">Visitar Sitio Web</span>
-                    <span class="step-status">Toca para iniciar</span>
+                    <span class="step-title">Ping a Sitio Web</span>
+                    <span class="step-status">Esperando señal...</span>
                 </div>
-                <i class="fas fa-chevron-right" style="color:#cbd5e0"></i>
+                <i class="fas fa-chevron-right" style="color:#4a5568"></i>
                 <i class="fas fa-check-circle" style="display:none"></i>
             </div>
 
             <a id="download-btn" class="main-btn btn-locked">
-                <i class="fas fa-lock"></i> Bloqueado
+                <i class="fas fa-hdd"></i> Acceso Denegado
             </a>
         </div>
 
         <div id="admin-panel">
-            <h2>🛠️ Crear Link Protegido</h2>
-            <p>Pega el link directo (Mediafire, Mega, etc.) y obtén tu link seguro.</p>
-            
-            <input type="text" id="real-link" class="admin-input" placeholder="Ej: https://mediafire.com/file/...">
-            <button onclick="generateLink()" class="main-btn btn-unlocked" style="margin-top:0">Generar Link</button>
-            
-            <div id="result-box" class="copy-box" onclick="copyResult()">
-                </div>
-            <p style="font-size:0.8em; margin-top:10px;">Toca el link negro para copiarlo</p>
+            <h2>🛠️ Consola Root</h2>
+            <p>Generar payload de acceso.</p>
+            <input type="text" id="real-link" class="admin-input" placeholder="Destino final...">
+            <button onclick="generateLink()" class="main-btn btn-unlocked" style="margin-top:0; background: #eee; color:#000">Compilar Link</button>
+            <div id="result-box" class="copy-box" onclick="copyResult()"></div>
+            <p style="font-size:0.8em; margin-top:10px; color: #718096">Click para copiar al portapapeles</p>
         </div>
-
     </div>
 
     <script>
-        // CONFIGURACIÓN
-        const WAIT_TIME = 10; // Segundos de espera
-
-        // LÓGICA DE DETECCIÓN (¿Eres Admin o Visitante?)
+        // LA MISMA LÓGICA JAVASCRIPT (NO HA CAMBIADO)
+        const WAIT_TIME = 10; 
         const urlParams = new URLSearchParams(window.location.search);
-        // Buscamos si hay un parámetro 'd' (data) en la URL
         const encodedData = urlParams.get('d');
-
         if (!encodedData) {
-            // NO hay dato -> Modo Creador
             document.getElementById('visitor-view').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
         } else {
-            // SI hay dato -> Modo Visitante
-            // Intentamos decodificar el link
-            try {
-                // Decodificamos de Base64
-                window.finalLink = atob(encodedData);
-            } catch (e) {
-                alert("Link inválido");
-            }
+            try { window.finalLink = atob(encodedData); } catch (e) { alert("Error de integridad"); }
         }
-
-        // --- LÓGICA VISITANTE (Pasos) ---
         let steps = { step1: false, step2: false };
-
         function startStep(id, url) {
             const card = document.getElementById(id);
             if(card.classList.contains('waiting') || card.classList.contains('completed')) return;
-
-            // Abrir link
             window.open(url, '_blank');
-
-            // Activar espera
             card.classList.add('waiting');
             const statusText = card.querySelector('.step-status');
             let left = WAIT_TIME;
-            
-            statusText.innerText = `Verificando... ${left}s`;
-
+            statusText.innerHTML = `<i class="fas fa-terminal"></i> Ejecutando... ${left}s`;
             const timer = setInterval(() => {
                 left--;
-                statusText.innerText = `Verificando... ${left}s`;
-                if(left <= 0) {
-                    clearInterval(timer);
-                    completeStep(id);
-                }
+                statusText.innerHTML = `<i class="fas fa-terminal"></i> Ejecutando... ${left}s`;
+                if(left <= 0) { clearInterval(timer); completeStep(id); }
             }, 1000);
         }
-
         function completeStep(id) {
             const card = document.getElementById(id);
-            card.classList.remove('waiting');
-            card.classList.add('completed');
-            card.querySelector('.step-status').innerText = "¡Completado!";
-            steps[id] = true;
-            checkAll();
+            card.classList.remove('waiting'); card.classList.add('completed');
+            card.querySelector('.step-status').innerText = "OK. Señal recibida.";
+            steps[id] = true; checkAll();
         }
-
         function checkAll() {
             if(steps.step1 && steps.step2) {
                 const btn = document.getElementById('download-btn');
-                btn.classList.remove('btn-locked');
-                btn.classList.add('btn-unlocked');
-                btn.innerHTML = '<i class="fas fa-download"></i> DESCARGAR AHORA';
-                btn.href = window.finalLink; // Asignamos el link decodificado
+                btn.classList.remove('btn-locked'); btn.classList.add('btn-unlocked');
+                btn.innerHTML = '<i class="fas fa-key"></i> ACCESO CONCEDIDO';
+                btn.href = window.finalLink;
             }
         }
-
-        // --- LÓGICA ADMIN (Generador) ---
         function generateLink() {
             const input = document.getElementById('real-link').value;
-            if(!input) return alert("Pega un link primero");
-
-            // Codificar el link en Base64 para ocultarlo
+            if(!input) return alert("Falta input");
             const encoded = btoa(input);
-            
-            // Crear la URL completa
-            const myUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            const finalUrl = `${myUrl}?d=${encoded}`;
-
-            const box = document.getElementById('result-box');
-            box.style.display = 'block';
-            box.innerText = finalUrl;
+            const finalUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?d=${encoded}`;
+            const box = document.getElementById('result-box'); box.style.display = 'block'; box.innerText = finalUrl;
         }
-
-        function copyResult() {
-            const text = document.getElementById('result-box').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("¡Link copiado al portapapeles!");
-            });
-        }
+        function copyResult() { navigator.clipboard.writeText(document.getElementById('result-box').innerText); alert("Copiado"); }
     </script>
 </body>
 </html>
