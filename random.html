@@ -3,62 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eligiendo destino...</title>
+    <title>Redirección Segura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- ESTILOS GLOBALES (Mismo tema Dark Tech) --- */
         body {
-            background-color: #1a1a1a;
-            color: white;
-            font-family: sans-serif;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #050505;
+            color: #e2e8f0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- FONDO DE PLACA MADRE (Full HD) --- */
+        .circuit-bg-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .c-trace {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.18); 
+            stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 1200; stroke-dashoffset: 1200;
+            animation: drawCircuit 12s ease-in-out infinite alternate;
+        }
+
+        .c-pad {
+            fill: rgba(255, 255, 255, 0.15); stroke: none;
+            animation: fadePads 6s ease-in-out infinite alternate;
+        }
+
+        .g1 { animation-delay: 0s; } .g2 { animation-delay: 3s; }
+        .g3 { animation-delay: 6s; } .g4 { animation-delay: 1s; }
+
+        @keyframes drawCircuit {
+            0% { stroke-dashoffset: 1200; opacity: 0; }
+            30% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 0.8; }
+        }
+        @keyframes fadePads { 0% { opacity: 0.1; } 100% { opacity: 0.8; } }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            background: rgba(10, 14, 20, 0.85); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px; padding: 50px;
+            width: 100%; max-width: 450px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.8);
             text-align: center;
+            position: relative; z-index: 10;
         }
-        .loader {
-            border: 5px solid #333;
-            border-top: 5px solid #3b82f6;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+
+        h2 { margin: 0 0 15px; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; font-size: 1.8em; }
+        p { color: #a0aec0; font-size: 1.1em; margin-bottom: 0; }
+
+        /* --- NUEVO LOADER TECH --- */
+        .tech-loader {
+            position: relative;
+            width: 80px; height: 80px;
+            margin: 0 auto 30px;
+            display: flex; justify-content: center; align-items: center;
         }
+        
+        /* Anillos giratorios */
+        .ring {
+            position: absolute; border-radius: 50%; border: 2px solid transparent;
+        }
+        .ring-1 {
+            width: 100%; height: 100%;
+            border-top: 2px solid #3b82f6; border-right: 2px solid #3b82f6;
+            animation: spin 1.5s linear infinite;
+        }
+        .ring-2 {
+            width: 70%; height: 70%;
+            border-bottom: 2px solid #10b981; border-left: 2px solid #10b981;
+            animation: spin 2s linear infinite reverse;
+        }
+        
+        /* Icono central pulsante */
+        .center-icon {
+            font-size: 1.8em; color: white;
+            animation: pulseIcon 1s ease-in-out infinite alternate;
+        }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseIcon { 0% { opacity: 0.5; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px white; } }
+
     </style>
 </head>
 <body>
 
-    <div>
-        <div class="loader"></div>
-        <h2>🎲 Tirando los dados...</h2>
-        <p>Te estamos redirigiendo a una entrada aleatoria.</p>
+    <div class="circuit-bg-container">
+        <svg width="100%" height="100%" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="g1">
+                <circle class="c-pad" cx="960" cy="540" r="15"/>
+                <path class="c-trace" d="M960 540 H 1200 V 400 H 1300" />
+                <path class="c-trace" d="M960 540 H 700 V 700 H 600" />
+                <path class="c-trace" d="M760 200 H 1160 V 880 H 760 V 200" /> 
+            </g>
+            <g class="g2">
+                <path class="c-trace" d="M200 0 V 1080" /> <path class="c-trace" d="M220 0 V 1080" />
+                <path class="c-trace" d="M1700 0 V 1080" /> <path class="c-trace" d="M1720 0 V 1080" />
+                <path class="c-trace" d="M100 500 H 400 L 500 600 H 600" />
+            </g>
+            <g class="g4">
+                <path class="c-trace" d="M0 100 H 1920" /> <path class="c-trace" d="M0 980 H 1920" />
+            </g>
+        </svg>
+    </div>
+
+    <div class="container">
+        
+        <div class="tech-loader">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <i class="fas fa-random center-icon"></i>
+        </div>
+
+        <h2><i class="fas fa-satellite-dish"></i> Seleccionando Destino</h2>
+        <p>Procesando algoritmo aleatorio...</p>
+        
+        <p id="status-text" style="font-size: 0.8em; margin-top: 10px; color: #64748b; font-family: monospace;">Inicializando...</p>
     </div>
 
     <script>
         /* --- LISTA DE TUS ENLACES --- */
-        /* Pon aquí todos los links que quieras que salgan al azar */
         const destinos = [
             "https://www.xgamingdigital.com/2025/12/mejor-sensibilidad-free-fire-todo-rojo-2026.html", // Ejemplo 1
             "https://www.xgamingdigital.com/2025/12/roblox-lento-aumentar-fps-gama-baja.html",                  // Ejemplo 2 (Archivo local)
             "https://www.xgamingdigital.com/2025/12/como-bajar-ping-juegos-moviles-sin-apps.html",                           // Ejemplo 
             "https://www.xgamingdigital.com/2025/12/mejores-emuladores-ligeros-free-fire-bajos-recursos.html",
-            "https://www.xgamingdigital.com/2025/12/recuperar-cuenta-invitado-free-fire-cod-mobile.html",
-            // Copia y pega líneas para añadir más...
+            "https://www.xgamingdigital.com/2025/12/recuperar-cuenta-invitado-free-fire-cod-mobile.html",                           // Link 3
+             // Agrega más aquí...
         ];
 
-        /* --- LÓGICA ALEATORIA --- */
+        /* --- LÓGICA CON EFECTO VISUAL --- */
         function irAlAzar() {
-            // Elige un número al azar entre 0 y el total de links
-            const indice = Math.floor(Math.random() * destinos.length);
-            
-            // Redirige al navegador a ese link
-            window.location.href = destinos[indice];
+            const status = document.getElementById('status-text');
+            const totalTime = 3500; // Tiempo total de espera (3.5 segundos)
+            let elapsed = 0;
+
+            // Efecto visual de "hackeo" cambiando texto
+            const interval = setInterval(() => {
+                elapsed += 100;
+                // Generar números aleatorios para efecto visual
+                status.innerText = "> Buscando sector: " + Math.random().toString(36).substring(7).toUpperCase();
+                
+                if (elapsed >= totalTime) {
+                    clearInterval(interval);
+                    status.innerText = "> ¡Destino Encontrado!";
+                    status.style.color = "#10b981"; // Verde
+                    
+                    // REDIRECCIÓN REAL
+                    const indice = Math.floor(Math.random() * destinos.length);
+                    window.location.href = destinos[indice];
+                }
+            }, 100);
         }
 
-        // Ejecutar inmediatamente (con un pequeño retraso para que se vea el efecto)
-        setTimeout(irAlAzar, 1000); 
+        // Iniciar al cargar
+        irAlAzar();
     </script>
 
 </body>
