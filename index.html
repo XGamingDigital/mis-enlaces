@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga Premium Segura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --step-bg: rgba(255, 255, 255, 0.7);
+            --text-main: #2d3748;
+            --text-sec: #718096;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-main);
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        h2 { margin: 0 0 10px; font-weight: 700; color: #4a5568; }
+        p { margin-bottom: 30px; color: var(--text-sec); font-size: 0.95em; }
+
+        /* --- ESTILOS DE LOS PASOS --- */
+        .step-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: #667eea;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .youtube-icon { background: #fee2e2; color: #ef4444; }
+        .web-icon { background: #e0e7ff; color: #6366f1; }
+        
+        .step-info { flex-grow: 1; text-align: left; }
+        .step-title { font-weight: 600; font-size: 0.95em; display: block; }
+        .step-status { font-size: 0.8em; color: #a0aec0; }
+
+        /* Estados */
+        .waiting { border-color: #f59e0b; background: #fffbeb; pointer-events: none; }
+        .waiting .step-status { color: #d97706; font-weight: bold; }
+        
+        .completed { border-color: #10b981; background: #ecfdf5; pointer-events: none; }
+        .completed .step-status { color: #10b981; font-weight: bold; }
+        .completed .fa-check-circle { color: #10b981; display: block !important; }
+        .completed .fa-chevron-right { display: none; }
+
+        /* Botón de descarga */
+        .main-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 25px;
+            transition: all 0.3s;
+        }
+
+        .btn-locked {
+            background: #cbd5e0;
+            color: #718096;
+            cursor: not-allowed;
+        }
+
+        .btn-unlocked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        /* --- MODO GENERADOR (Admin) --- */
+        #admin-panel { display: none; }
+        .admin-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .copy-box {
+            background: #2d3748;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            word-break: break-all;
+            display: none;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="visitor-view">
+            <h2>🚀 Desbloquear Enlace</h2>
+            <p>Completa los pasos para acceder a la descarga directa.</p>
+
+            <div class="step-card" id="step1" onclick="startStep('step1', 'https://www.youtube.com/@XGamingDigital?sub_confirmation=1')">
+                <div class="step-icon youtube-icon"><i class="fab fa-youtube"></i></div>
+                <div class="step-info">
+                    <span class="step-title">Suscribirse en YouTube</span>
+                    <span class="step-status">Toca para iniciar</span>
+                </div>
+                <i class="fas fa-chevron-right" style="color:#cbd5e0"></i>
+                <i class="fas fa-check-circle" style="display:none"></i>
+            </div>
+
+            <div class="step-card" id="step2" onclick="startStep('step2', 'https://www.xgamingdigital.com/')">
+                <div class="step-icon web-icon"><i class="fas fa-globe"></i></div>
+                <div class="step-info">
+                    <span class="step-title">Visitar Sitio Web</span>
+                    <span class="step-status">Toca para iniciar</span>
+                </div>
+                <i class="fas fa-chevron-right" style="color:#cbd5e0"></i>
+                <i class="fas fa-check-circle" style="display:none"></i>
+            </div>
+
+            <a id="download-btn" class="main-btn btn-locked">
+                <i class="fas fa-lock"></i> Bloqueado
+            </a>
+        </div>
+
+        <div id="admin-panel">
+            <h2>🛠️ Crear Link Protegido</h2>
+            <p>Pega el link directo (Mediafire, Mega, etc.) y obtén tu link seguro.</p>
+            
+            <input type="text" id="real-link" class="admin-input" placeholder="Ej: https://mediafire.com/file/...">
+            <button onclick="generateLink()" class="main-btn btn-unlocked" style="margin-top:0">Generar Link</button>
+            
+            <div id="result-box" class="copy-box" onclick="copyResult()">
+                </div>
+            <p style="font-size:0.8em; margin-top:10px;">Toca el link negro para copiarlo</p>
+        </div>
+
+    </div>
+
+    <script>
+        // CONFIGURACIÓN
+        const WAIT_TIME = 10; // Segundos de espera
+
+        // LÓGICA DE DETECCIÓN (¿Eres Admin o Visitante?)
+        const urlParams = new URLSearchParams(window.location.search);
+        // Buscamos si hay un parámetro 'd' (data) en la URL
+        const encodedData = urlParams.get('d');
+
+        if (!encodedData) {
+            // NO hay dato -> Modo Creador
+            document.getElementById('visitor-view').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+        } else {
+            // SI hay dato -> Modo Visitante
+            // Intentamos decodificar el link
+            try {
+                // Decodificamos de Base64
+                window.finalLink = atob(encodedData);
+            } catch (e) {
+                alert("Link inválido");
+            }
+        }
+
+        // --- LÓGICA VISITANTE (Pasos) ---
+        let steps = { step1: false, step2: false };
+
+        function startStep(id, url) {
+            const card = document.getElementById(id);
+            if(card.classList.contains('waiting') || card.classList.contains('completed')) return;
+
+            // Abrir link
+            window.open(url, '_blank');
+
+            // Activar espera
+            card.classList.add('waiting');
+            const statusText = card.querySelector('.step-status');
+            let left = WAIT_TIME;
+            
+            statusText.innerText = `Verificando... ${left}s`;
+
+            const timer = setInterval(() => {
+                left--;
+                statusText.innerText = `Verificando... ${left}s`;
+                if(left <= 0) {
+                    clearInterval(timer);
+                    completeStep(id);
+                }
+            }, 1000);
+        }
+
+        function completeStep(id) {
+            const card = document.getElementById(id);
+            card.classList.remove('waiting');
+            card.classList.add('completed');
+            card.querySelector('.step-status').innerText = "¡Completado!";
+            steps[id] = true;
+            checkAll();
+        }
+
+        function checkAll() {
+            if(steps.step1 && steps.step2) {
+                const btn = document.getElementById('download-btn');
+                btn.classList.remove('btn-locked');
+                btn.classList.add('btn-unlocked');
+                btn.innerHTML = '<i class="fas fa-download"></i> DESCARGAR AHORA';
+                btn.href = window.finalLink; // Asignamos el link decodificado
+            }
+        }
+
+        // --- LÓGICA ADMIN (Generador) ---
+        function generateLink() {
+            const input = document.getElementById('real-link').value;
+            if(!input) return alert("Pega un link primero");
+
+            // Codificar el link en Base64 para ocultarlo
+            const encoded = btoa(input);
+            
+            // Crear la URL completa
+            const myUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            const finalUrl = `${myUrl}?d=${encoded}`;
+
+            const box = document.getElementById('result-box');
+            box.style.display = 'block';
+            box.innerText = finalUrl;
+        }
+
+        function copyResult() {
+            const text = document.getElementById('result-box').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("¡Link copiado al portapapeles!");
+            });
+        }
+    </script>
+</body>
+</html>
